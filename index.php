@@ -5,7 +5,7 @@
 		$reqStr="http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$appid&lang=ru";
 		$jsonData=file_get_contents($reqStr);
 		$data=json_decode($jsonData);
-		$temp=round($data->main->temp-273,1);
+		$temp=round($data->main->temp-273,15);
 		$pressure=round($data->main->pressure*0.75006375541921);
 		$humidity=$data->main->humidity;
 		$weather=$data->weather[0]->description;
