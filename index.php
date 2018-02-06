@@ -9,11 +9,21 @@
 		}
 		else { //если нет свежего файла
 			$reqStr="http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$appid&lang=ru";
-			$jsonData=file_get_contents($reqStr);
+			//file_get_contents($reqStr);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $reqStr);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+			$jsonData=curl_exec($ch);
+			if (curl_getinfo($ch,CURLINFO_HTTP_CODE)!='200') {
+				curl_close($ch);
+				$data=json_decode($jsonData);
+				die ("Ошибка получения данных: <b>$data->message</b>");
+			}
+			curl_close($ch);
 			file_put_contents($fileName, $jsonData);
 		}
 		$data=json_decode($jsonData);
-		$temp=round($data->main->temp-273,15);
+		$temp=round($data->main->temp-273.15,1);
 		$pressure=round($data->main->pressure*0.75006375541921);
 		$humidity=$data->main->humidity;
 		$weather=$data->weather[0]->description;
