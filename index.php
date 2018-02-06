@@ -9,7 +9,6 @@
 		}
 		else { //если нет свежего файла
 			$reqStr="http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$appid&lang=ru";
-			//file_get_contents($reqStr);
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $reqStr);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
