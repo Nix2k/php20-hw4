@@ -16,7 +16,8 @@
 			if (curl_getinfo($ch,CURLINFO_HTTP_CODE)!='200') {
 				curl_close($ch);
 				$data=json_decode($jsonData);
-				die ("Ошибка получения данных: <b>$data->message</b>");
+				if (isset($data->message)) die ("Ошибка: <b>$data->message</b>");
+				die ("Неизвестная ошибка");
 			}
 			curl_close($ch);
 			file_put_contents($fileName, $jsonData);
